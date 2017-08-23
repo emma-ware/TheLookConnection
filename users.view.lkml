@@ -123,6 +123,13 @@ view: users {
   #  sql_longitude: ${longitude} ;;
   #}
 
+  measure: state_count {
+    type: count
+    filters: {
+      field: state
+    }
+  }
+
 
   # ----- Sets of fields for drilling ------
   set: detail {
