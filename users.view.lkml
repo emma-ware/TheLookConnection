@@ -96,19 +96,13 @@ view: users {
   }
 
   dimension: region {
-    case: {
-      when: {
-        sql: ${TABLE}.state = 'California';;
-        label: "West Coast"
-      }
-
-      when: {
-        sql: ${TABLE}.state = 'New York' ;;
-        label: "East Coast"
-      }
-    }
+    type: string
+    sql:
+      CASE WHEN ${state} IN ('California', 'Washington', 'Oregon') THEN 'West'
+           WHEN ${state} IN ('New York', 'New Jersey', 'Delaware') THEN 'East'
+           WHEN ${state} IN ('Arizona', 'Colorado', 'Idaho', 'Montana', 'Nevada', 'New Mexico', 'Utah', 'Wyoming') THEN 'Southwest'
+           ELSE NULL END;;
   }
-
   #dimension: latitude {
   #  type: number
   #  sql: ${TABLE}.latitude ;;
