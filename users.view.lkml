@@ -124,7 +124,8 @@ view: users {
   #}
 
   measure: state_count {
-    type: count
+    type: count_distinct
+    sql: ${TABLE}.state ;;
     drill_fields: [state]
   }
 
