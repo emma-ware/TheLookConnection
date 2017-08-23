@@ -98,7 +98,7 @@ view: users {
   dimension: region {
     case: {
       when: {
-        sql: ${TABLE}.state = 'California','Washington' ;;
+        sql: ${TABLE}.state = 'California';;
         label: "West Coast"
       }
 
