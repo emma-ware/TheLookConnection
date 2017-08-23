@@ -79,6 +79,21 @@ view: users {
     drill_fields: [detail*]
   }
 
+  measure: men_count {
+    type: count
+    filters: {
+      field: gender
+      value: "Male"
+    }
+  }
+
+  measure: female_count {
+    type: count
+    filters: {
+      field: gender
+      value: "Female"
+    }
+  }
 
   #dimension: latitude {
   #  type: number
