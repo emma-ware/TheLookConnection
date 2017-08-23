@@ -95,6 +95,20 @@ view: users {
     }
   }
 
+  dimension: region {
+    case: {
+      when: {
+        sql: ${TABLE}.state = 'CA','WA' ;;
+        label: "West Coast"
+      }
+
+      when: {
+        sql: ${TABLE}.state = 'NY' ;;
+        label: "East Coast"
+      }
+    }
+  }
+
   #dimension: latitude {
   #  type: number
   #  sql: ${TABLE}.latitude ;;
