@@ -98,10 +98,14 @@ view: users {
   dimension: region {
     type: string
     sql:
-      CASE WHEN ${state} IN ('California', 'Washington', 'Oregon') THEN 'West'
+      CASE WHEN ${state} IN ('California', 'Washington', 'Oregon', 'Hawaii', 'Alaska') THEN 'West'
            WHEN ${state} IN ('New York', 'New Jersey', 'Delaware') THEN 'East'
            WHEN ${state} IN ('Arizona', 'Colorado', 'Idaho', 'Montana', 'Nevada', 'New Mexico', 'Utah', 'Wyoming') THEN 'Southwest'
-           ELSE NULL END;;
+           WHEN ${state} in ('Illinois', 'Indiana', 'Michigan', 'Ohio', 'Wisconsin', 'Iowa', 'Kansas', 'Minnesota', 'Missouri', 'Nebraska', 'North Dakota', 'South Dakota') THEN 'Midwest'
+           WHEN ${state} in ('Connecticut', 'Maine', 'Massachusetts', 'New Hampshire', 'Rhode Island', 'Vermont') THEN 'New England'
+           When ${state} in ('New Jersey', 'New York', 'Pennsylvania', 'Delaware',  'Maryland', 'District of Columbia', 'Virginia') THEN 'Mid-Atlantic'
+           WHEN ${state} in ( 'Florida', 'Georgia', 'North Carolina', 'South Carolina',  'West Virginia', 'Alabama', 'Kentucky', 'Mississippi', 'Tennessee', 'Arkansas', 'Louisiana', 'Oklahoma', 'Texas') THEN 'South'
+          ELSE NULL END;;
   }
   #dimension: latitude {
   #  type: number
