@@ -125,9 +125,7 @@ view: users {
 
   measure: state_count {
     type: count
-    filters: {
-      field: state
-    }
+    drill_fields: [state]
   }
 
 
