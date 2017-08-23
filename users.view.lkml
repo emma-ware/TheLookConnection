@@ -62,6 +62,13 @@ view: users {
     sql: ${TABLE}.state ;;
   }
 
+  dimension: age_tier {
+    type: tier
+    tiers: [0, 10, 20, 30, 40, 50, 60, 70, 80]
+    style: integer
+    sql: ${age} ;;
+  }
+
   dimension: zip {
     type: zipcode
     sql: ${TABLE}.zip ;;
