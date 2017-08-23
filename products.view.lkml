@@ -42,6 +42,12 @@ view: products {
     sql: ${TABLE}.sku ;;
   }
 
+  measure: brand_count {
+    type: count_distinct
+    sql: ${TABLE}.brand ;;
+    drill_fields: [brand]
+  }
+
   measure: count {
     type: count
     drill_fields: [id, item_name, inventory_items.count]
