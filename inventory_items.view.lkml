@@ -32,6 +32,11 @@ view: inventory_items {
     sql: ${TABLE}.product_id ;;
   }
 
+#  dimension: time_in_inventory {
+#    type:  number
+#    sql:  ${TABLE}.created_at_date - ${TABLE}.sold_at_date;;
+#  }
+
   dimension_group: sold {
     type: time
     timeframes: [
@@ -50,4 +55,6 @@ view: inventory_items {
     type: count
     drill_fields: [id, products.item_name, products.id, order_items.count]
   }
+
+
 }
