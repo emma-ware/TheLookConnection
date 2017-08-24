@@ -89,6 +89,23 @@ dimension:  full_name{
     drill_fields: [detail*]
   }
 
+  measure: new_england_population {
+    type: count_distinct
+    sql: ${TABLE}.id  ;;
+    filters: {
+      field:  region
+      value:  "New England"
+    }
+  }
+
+  measure:west_population {
+    type: count_distinct
+    sql: ${TABLE}.id  ;;
+    filters: {
+      field:  region
+      value:  "West"
+    }
+  }
 
 
   dimension: region {
