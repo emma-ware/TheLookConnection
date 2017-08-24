@@ -56,6 +56,11 @@ view: inventory_items {
     sql: ${TABLE}.sold_at ;;
   }
 
+  dimension: is_sold {
+    type: yesno
+    sql: ${TABLE}.sold_at IS NOT NULL ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id, products.item_name, products.id, order_items.count]
