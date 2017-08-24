@@ -89,21 +89,7 @@ dimension:  full_name{
     drill_fields: [detail*]
   }
 
-  measure: men_count {
-    type: count
-    filters: {
-      field: gender
-      value: "Male"
-    }
-  }
 
-  measure: female_count {
-    type: count
-    filters: {
-      field: gender
-      value: "Female"
-    }
-  }
 
   dimension: region {
     type: string
