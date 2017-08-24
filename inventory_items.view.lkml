@@ -32,10 +32,10 @@ view: inventory_items {
     sql: ${TABLE}.product_id ;;
   }
 
-#  dimension: time_in_inventory {
-#    type:  number
-#    sql:  ${TABLE}.created_at_date - ${TABLE}.sold_at_date;;
-#  }
+  dimension: time_in_inventory {
+    type:  date_hour
+    sql:  ${sold_raw} - ${created_raw};;
+  }
 
   dimension_group: sold {
     type: time
