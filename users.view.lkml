@@ -79,6 +79,11 @@ dimension:  full_name{
     sql: ${TABLE}.zip ;;
   }
 
+#  dimension: profit {
+#    type: number
+#    sql: ${order_items.sale_price} - ${inventory_items.cost}. ;;
+#  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
@@ -133,6 +138,7 @@ dimension:  full_name{
     sql: ${TABLE}.state ;;
     drill_fields: [state]
   }
+
 
 
   # ----- Sets of fields for drilling ------
