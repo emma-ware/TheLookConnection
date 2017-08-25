@@ -64,6 +64,7 @@ dimension:  full_name{
 
   dimension: state {
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}.state ;;
   }
 
@@ -76,6 +77,7 @@ dimension:  full_name{
 
   dimension: zip {
     type: zipcode
+    map_layer_name: us_zipcode_tabulation_areas
     sql: ${TABLE}.zip ;;
   }
 

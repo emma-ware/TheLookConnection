@@ -38,10 +38,22 @@ view: order_items {
     sql: ${TABLE}.sale_price ;;
   }
 
-
   measure: count {
     type: count
     drill_fields: [id, inventory_items.id, orders.id]
+  }
+
+  measure: cheapest_item {
+    type: min
+    sql: ${sale_price} ;;
+    value_format_name: usd
+    drill_fields: [products.id, products.item_name, products.retail_price] #still need to work on
+  }
+
+  measure: most_expensive_item {
+    type: max
+    sql: ${sale_price} ;;
+    value_format_name: usd
   }
 
   measure: total_sales {
