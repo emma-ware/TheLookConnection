@@ -51,16 +51,31 @@ view: order_items {
     value_format_name: usd
   }
 
+  measure: total_cost {
+    type: sum
+    sql: ${inventory_items.cost} ;;
+    value_format_name: usd
+  }
+
+  measure: avg_revenue {
+    type:  average
+    sql: ${TABLE}.sale_price - ${inventory_items.cost} ;;
+    value_format_name: usd
+  }
+
+
   measure: revenue {
     type:  sum
     sql: ${TABLE}.sale_price - ${inventory_items.cost} ;;
     value_format_name: usd
   }
 
-#  measure: total_revenue {
-#    type: sum
-#    sql: ${revenue} ;;
-#  }
+  measure: total_revenue {
+    description: "All dat Money"
+    type: number
+    sql: ${total_sales}-${total_cost} ;;
+    value_format_name: usd
+  }
 
   measure: west_revenue {
     type: sum
@@ -70,6 +85,13 @@ view: order_items {
       value: "West"
     }
     value_format_name: usd
+  }
+
+  measure: west_percent_of_rev {
+    description: "The West Percent of Total Revenue"
+    type: number
+    sql: ${west_revenue} / ${total_revenue} ;;
+    value_format_name: percent_2
   }
 
 
