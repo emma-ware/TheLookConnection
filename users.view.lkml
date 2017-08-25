@@ -133,6 +133,18 @@ measure: west_percent_of_pop {
            WHEN ${state} in ( 'Florida', 'Georgia', 'North Carolina', 'South Carolina',  'West Virginia', 'Alabama', 'Kentucky', 'Mississippi', 'Tennessee', 'Arkansas', 'Louisiana', 'Oklahoma', 'Texas') THEN 'South'
           ELSE NULL END;;
   }
+
+  dimension: user_type {
+    type: string
+    sql:
+        CASE WHEN timestampdiff(day,${created_date},now()) <= 30 then 'Under 1 Month'
+            WHEN timestampdiff(day,${created_date},now()) between 31 and 182 then '1 - 6 Months'
+            WHEN timestampdiff(day,${created_date},now()) between 182 and 365 then '6 - 12 Months'
+        ELSE 'Over 1 Year' end
+        ;;
+  }
+
+
   #dimension: latitude {
   #  type: number
   #  sql: ${TABLE}.latitude ;;
@@ -154,6 +166,8 @@ measure: west_percent_of_pop {
     sql: ${TABLE}.state ;;
     drill_fields: [state]
   }
+
+
 
 
 
