@@ -134,7 +134,7 @@ measure: west_percent_of_pop {
           ELSE NULL END;;
   }
 
-  dimension: user_type {
+  dimension: time_as_a_customer {
     type: string
     sql:
         CASE WHEN timestampdiff(day,${created_date},now()) <= 30 then 'Under 1 Month'
