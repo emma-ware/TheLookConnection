@@ -6,6 +6,12 @@ include: "*.view"
 # include all the dashboards
 include: "*.dashboard"
 
+
+
+#########
+#EXPLORE EVENTS
+#########
+
 explore: events {
   join: users {
     type: left_outer
@@ -14,6 +20,10 @@ explore: events {
   }
 }
 
+#########
+#EXPLORE INVENTORY ITEMS
+#########
+
 explore: inventory_items {
   join: products {
     type: left_outer
@@ -21,6 +31,12 @@ explore: inventory_items {
     relationship: many_to_one
   }
 }
+
+
+#########
+#EXPLORE ORDER ITEMS
+#########
+
 
 explore: order_items {
   join: inventory_items {
@@ -48,6 +64,11 @@ explore: order_items {
   }
 }
 
+#########
+#EXPLORE ORDERS
+#########
+
+
 explore: orders {
   join: users {
     type: left_outer
@@ -56,9 +77,28 @@ explore: orders {
   }
 }
 
-explore: products {}
+#########
+#EXPLORE PRODUCTS
+#########
+
+
+explore: products {
+  sql_always_where: ${products.brand} <> 'CB' ;;
+  join: inventory_items {
+    fields: [inventory_items.cost]
+    sql_on: ${inventory_items.product_id} = ${products.id} ;;
+    relationship: one_to_many
+  }
+
+}
 
 #explore: schema_migrations {}
+
+
+#########
+#EXPLORE USER DATA
+#########
+
 
 explore: user_data {
   join: users {
@@ -67,6 +107,11 @@ explore: user_data {
     relationship: many_to_one
   }
 }
+
+#########
+#EXPLORE USERS
+#########
+
 
 explore: users {
   join: orders{
@@ -82,6 +127,7 @@ explore: users {
   }
 
   join: inventory_items {
+    view_label: "Items In Inventory"
     type: left_outer
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
     relationship: many_to_one

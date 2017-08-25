@@ -67,5 +67,10 @@ view: inventory_items {
     drill_fields: [id, products.item_name, products.id, order_items.count]
   }
 
+  measure: average_days_in_inventory {
+  type: average
+  sql: ${days_in_inventory} ;;
+  value_format: "00.0"
+  }
 
 }
