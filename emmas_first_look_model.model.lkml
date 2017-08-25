@@ -9,18 +9,6 @@ include: "*.dashboard"
 
 
 #########
-#EXPLORE EVENTS
-#########
-
-explore: events {
-  join: users {
-    type: left_outer
-    sql_on: ${events.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-}
-
-#########
 #EXPLORE INVENTORY ITEMS
 #########
 
@@ -84,6 +72,12 @@ explore: orders {
 
 explore: products {
   sql_always_where: ${products.brand} <> 'CB' ;;
+  always_filter: {                    #turns on filter to exclude
+    filters: {
+      field: brand
+      value: "-NULL"
+    }
+  }
   join: inventory_items {
     fields: [inventory_items.cost]
     sql_on: ${inventory_items.product_id} = ${products.id} ;;
@@ -95,20 +89,7 @@ explore: products {
 #explore: schema_migrations {}
 
 
-#########
-#EXPLORE USER DATA
-#########
-
-
-explore: user_data {
-  join: users {
-    type: left_outer
-    sql_on: ${user_data.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-}
-
-#########
+#####
 #EXPLORE USERS
 #########
 
