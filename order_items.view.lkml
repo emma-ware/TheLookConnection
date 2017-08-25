@@ -44,9 +44,33 @@ view: order_items {
     drill_fields: [id, inventory_items.id, orders.id]
   }
 
+  measure: total_sales {
+    description: "Total Sales"
+    type: sum
+    sql: ${TABLE}.sale_price ;;
+    value_format_name: usd
+  }
+
   measure: revenue {
     type:  sum
-    sql: ${TABLE}.sale_price ;;
-    value_format: "0.00"
+    sql: ${TABLE}.sale_price - ${inventory_items.cost} ;;
+    value_format_name: usd
   }
+
+#  measure: total_revenue {
+#    type: sum
+#    sql: ${revenue} ;;
+#  }
+
+  measure: west_revenue {
+    type: sum
+    sql: ${TABLE}.sale_price;;
+    filters: {
+      field: users.region
+      value: "West"
+    }
+    value_format_name: usd
+  }
+
+
 }

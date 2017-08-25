@@ -107,6 +107,17 @@ dimension:  full_name{
     }
   }
 
+  measure: total_population {
+    type: count_distinct
+    sql: ${TABLE}.id ;;
+  }
+
+measure: west_percent_of_pop {
+  description: "Percent of total population in the west"
+  type:  number
+  sql: ${west_population} / ${total_population} ;;
+  value_format_name: percent_2
+}
 
   dimension: region {
     type: string

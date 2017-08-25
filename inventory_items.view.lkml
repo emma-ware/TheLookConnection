@@ -38,6 +38,7 @@ view: inventory_items {
   #}
 
   dimension: days_in_inventory {
+    description: "Number of Days an item has been in inventory, null if unsold"
     type: number
     sql: DATEDIFF(${sold_raw}, ${created_date});;
   }
