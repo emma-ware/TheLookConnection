@@ -6,6 +6,10 @@ include: "*.view"
 # include all the dashboards
 include: "*.dashboard"
 
+datagroup: orders_datagroup {
+  sql_trigger: SELECT count(*) FROM order_items ;;
+  max_cache_age: "4 hours"
+}
 
 
 #########
