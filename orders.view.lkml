@@ -1,6 +1,17 @@
 view: orders {
   sql_table_name: demo_db.orders ;;
 
+#  derived_table: {
+#    sql:
+#    select case
+#        when order_count between 0 and 2 then 'New Customer'
+#        when order_count >= 4 then 'Loyal Customer'
+#        end as lifetime_orders
+#    from (select user_id, count(id) as order_count
+#        from demo_db.orders
+#        group by 1) as orderst;;
+#  }
+
   dimension: id {
     primary_key: yes
     type: number
