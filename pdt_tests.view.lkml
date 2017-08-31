@@ -1,35 +1,17 @@
-view: user_order_facts {
+view: pdt_tests {
 
- derived_table: {
-   sql:
-   select user_id, order_count, case
-       when order_count between 0 and 2 then 'New Customer'
-       when order_count >= 4 then 'Loyal Customer'
-       end as lifetime_orders
-   from (select user_id, count(id) as order_count
-       from demo_db.orders
-       group by 1) as orderst;;
- }
-#from (demo_db) straight from the connection - raw sql
-#native derived table - specify lookml
+  derived_table: {
+    sql:
+    SELECT first_name, last_name, age from demo_db.users
 
+    ;;
 
-dimension: lifetime_orders {
-  sql: ${TABLE}.lifetime_orders ;;
-}
+  }
 
-#   derived_table: {
-#     sql:
-#       SELECT
-#         user_id,
-#         MIN(DATE(created_at)) AS first_order_date
-#       FROM
-#         orders
-#       GROUP BY
-#         user_id ;;
-#   }
-
-
+  dimension:  full_name{
+    description: "first and last name"
+    sql: concat(${TABLE}.first_name, ' ', ${TABLE}.last_name) ;;
+  }
   # # You can specify the table name if it's different from the view name:
   # sql_table_name: my_schema_name.tester ;;
   #
@@ -60,7 +42,7 @@ dimension: lifetime_orders {
   # }
 }
 
-# view: user_order_facts {
+# view: pdt_tests {
 #   # Or, you could make this view a derived table, like this:
 #   derived_table: {
 #     sql: SELECT
