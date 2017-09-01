@@ -22,7 +22,7 @@ view: product_details_pdt {
                   when order_count between 15 and 30 then 'Popular'
                   when order_count >= 31 then 'Extremely Popular'
                   end as product_popularity
-       from (select ii.product_id, count(o.id) as order_count from demo_db.orders o
+       from (select ii.product_id, count(oi.id) as order_count from demo_db.orders o
             join demo_db.order_items oi on oi.order_id = o.id
             join demo_db.inventory_items ii on ii.id = oi.inventory_item_id
       group by 1) as orderst
@@ -30,6 +30,52 @@ view: product_details_pdt {
               join inventory_items ii on p.id = ii.product_id
               join order_items oi on oi.inventory_item_id = ii.id
           ;;
+  }
+
+  dimension: created_at {
+    type: date
+    sql: ${TABLE}.created_at ;;
+  }
+
+  dimension: returned_at {
+    type: date
+    sql: ${TABLE}.returned_at ;;
+  }
+
+  dimension: order_id {
+    type: date
+    sql: ${TABLE}.order_id ;;
+  }
+
+  dimension: cost {
+    type: number
+    sql: ${TABLE}.cost ;;
+    value_format_name: usd
+  }
+
+  dimension: sold_at {
+    type: date
+    sql: ${TABLE}.sold_at ;;
+  }
+
+  dimension: inventory_item_id {
+    type: number
+    sql: ${TABLE}.id ;;
+  }
+
+  dimension: department {
+    type: string
+    sql: ${TABLE}.department ;;
+  }
+
+  dimension: brand {
+    type: string
+    sql: ${TABLE}.brand ;;
+  }
+
+  dimension: retail_price {
+    type: number
+    sql: ${TABLE}.retail_price ;;
   }
 
   dimension: item_name {
@@ -45,6 +91,14 @@ view: product_details_pdt {
   dimension: product_id {
     type: number
     sql: ${TABLE}.product_id ;;
+    drill_fields: [item_name, category, product_order_count]
+  }
+
+  dimension: profit {
+    type: number
+    description: "Item profit"
+    sql: ${retail_price} - ${cost} ;;
+    value_format_name: usd
   }
 
   dimension: product_order_count{
@@ -57,5 +111,8 @@ view: product_details_pdt {
     sql: ${TABLE}.product_popularity ;;
   }
 
+  measure: count{
+    type: count
+  }
 
   }
