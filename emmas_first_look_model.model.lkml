@@ -132,6 +132,8 @@ explore: users {
 #PDT EXPLORE
 explore: user_order_facts {}
 
+explore: product_details_pdt  {}
+
 explore:pdt_tests {}
 
 
