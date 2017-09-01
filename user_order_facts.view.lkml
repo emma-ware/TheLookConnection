@@ -1,6 +1,8 @@
 view: user_order_facts {
 
  derived_table: {
+  persist_for: "4 hours"
+  indexes: ["user_id", "order_count","lifetime_orders"]
    sql:
    select user_id, order_count, case
        when order_count between 0 and 2 then 'New Customer'
@@ -16,15 +18,18 @@ view: user_order_facts {
 
 
 dimension: user_type {
+  type: string
   description: "0-2 orders is a New Customer, 3-9 is a Loyal Customer, 10+ orders is an Extremely Loyal Customer"
   sql: ${TABLE}.lifetime_orders ;;
 }
 
 dimension: user_id {
+  type: number
   sql: ${TABLE}.user_id ;;
 }
 
 dimension: user_order_count {
+  type: number
   sql: ${TABLE}.order_count ;;
 }
 
