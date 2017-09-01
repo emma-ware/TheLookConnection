@@ -4,18 +4,32 @@ view: user_order_facts {
   persist_for: "4 hours"
   indexes: ["user_id", "order_count","lifetime_orders"]
    sql:
-   select user_id, order_count, case
-       when order_count between 0 and 2 then 'New Customer'
-       when order_count between 3 and 9 then 'Loyal Customer'
-       when order_count >= 10 then 'Extremely Loyal Customer'
-       end as lifetime_orders
-   from (select user_id, count(id) as order_count
-       from demo_db.orders
-       group by 1) as orderst;;
+   select orderst.user_id,
+          order_count,
+          usr.first_name,
+          usr.last_name,
+          usr.gender,
+          usr.zip
+          usr.country
+          usr.state
+          usr.city
+          usr.age
+          case
+              when order_count between 0 and 2 then 'New Customer'
+              when order_count between 3 and 9 then 'Loyal Customer'
+              when order_count >= 10 then 'Extremely Loyal Customer'
+              end as lifetime_orders
+   from (select user_id, count(id) as order_count from demo_db.orders group by 1) as orderst
+      join demo_db.users usr on orderst.user_id = usr.id
+      ;;
  }
 #from (demo_db) straight from the connection - raw sql
 #native derived table - specify lookml
 
+dimension: user_full_name {
+  type: string
+  sql: concat(${TABLE}.first_name, ' ', ${TABLE}.last_name);;
+}
 
 dimension: user_type {
   type: string
@@ -33,10 +47,48 @@ dimension: user_order_count {
   sql: ${TABLE}.order_count ;;
 }
 
+  dimension: age {
+    type: number
+    sql: ${TABLE}.age ;;
+  }
+
+  dimension: city {
+    type: string
+    sql: ${TABLE}.city ;;
+  }
+
+  dimension: country {
+    type: string
+    map_layer_name: countries
+    sql: ${TABLE}.country ;;
+  }
+
+  dimension: state {
+    type: string
+    map_layer_name: us_states
+    sql: ${TABLE}.state ;;
+  }
+
+  dimension: age_tier {
+    type: tier
+    tiers: [10, 20, 30, 40, 50, 60, 70, 80]
+    style: integer
+    sql: ${age} ;;
+  }
+
+  dimension: zip {
+    type: zipcode
+    map_layer_name: us_zipcode_tabulation_areas
+    sql: ${TABLE}.zip ;;
+  }
+
+
 measure: count {
   type: count
   drill_fields: [user_id]
 }
+
+
 
 #   derived_table: {
 #     sql:
