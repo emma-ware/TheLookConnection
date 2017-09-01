@@ -76,13 +76,13 @@ view: order_items {
   }
 
 
-  measure: revenue {
+  measure: profit {
     type:  sum
     sql: ${TABLE}.sale_price - ${inventory_items.cost} ;;
     value_format_name: usd
   }
 
-  measure: total_revenue {
+  measure: total_profit {
     description: "All dat Money"
     type: number
     sql: ${total_sales}-${total_cost} ;;
@@ -102,7 +102,7 @@ view: order_items {
   measure: west_percent_of_rev {
     description: "The West Percent of Total Revenue"
     type: number
-    sql: ${west_revenue} / ${total_revenue} ;;
+    sql: ${west_revenue} / ${total_profit} ;;
     value_format_name: percent_2
   }
 

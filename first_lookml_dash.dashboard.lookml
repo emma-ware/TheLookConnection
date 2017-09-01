@@ -59,9 +59,9 @@
     type: looker_pie
     fields:
     - products.category
-    - order_items.total_revenue
+    - order_items.total_profit
     sorts:
-    - order_items.total_revenue desc
+    - order_items.total_profit desc
     limit: 15
     column_limit: 50
     value_labels: legend
