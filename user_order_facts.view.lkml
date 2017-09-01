@@ -88,6 +88,54 @@ measure: count {
   drill_fields: [user_id]
 }
 
+  measure: extra_loyal_users_count {
+    type: count
+    filters: {
+      field: user_type
+      value: "Extremely Loyal Customer"
+    }
+  }
+
+  measure: new_users_count {
+    type: count
+    filters: {
+      field: user_type
+      value: "New Customer"
+    }
+  }
+
+  measure: loyal_users_count {
+    type: count
+    filters: {
+      field: user_type
+      value: "Loyal Customer"
+    }
+  }
+
+  measure: total_users {
+    type: count_distinct
+    sql: ${user_id} ;;
+  }
+
+  measure: percent_extremely_loyal{
+    type: number
+    value_format_name: percent_2
+    sql: ${extra_loyal_users_count}/${total_users} ;;
+  }
+
+  measure: percent_new{
+    type: number
+    value_format_name: percent_2
+    sql: ${new_users_count}/${total_users} ;;
+  }
+
+  measure: percent_loyal{
+    type: number
+    value_format_name: percent_2
+    sql: ${loyal_users_count}/${total_users} ;;
+  }
+
+
 
 
 #   derived_table: {
