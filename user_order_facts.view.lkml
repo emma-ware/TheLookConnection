@@ -4,7 +4,8 @@ view: user_order_facts {
    sql:
    select user_id, order_count, case
        when order_count between 0 and 2 then 'New Customer'
-       when order_count >= 4 then 'Loyal Customer'
+       when order_count between 3 and 9 then 'Loyal Customer'
+       when order_count >= 10 then 'Extremely Loyal Customer'
        end as lifetime_orders
    from (select user_id, count(id) as order_count
        from demo_db.orders
@@ -14,8 +15,22 @@ view: user_order_facts {
 #native derived table - specify lookml
 
 
-dimension: lifetime_orders {
+dimension: user_type {
+  description: "0-2 orders is a New Customer, 3-9 is a Loyal Customer, 10+ orders is an Extremely Loyal Customer"
   sql: ${TABLE}.lifetime_orders ;;
+}
+
+dimension: user_id {
+  sql: ${TABLE}.user_id ;;
+}
+
+dimension: user_order_count {
+  sql: ${TABLE}.order_count ;;
+}
+
+measure: count {
+  type: count
+  drill_fields: [user_id]
 }
 
 #   derived_table: {
