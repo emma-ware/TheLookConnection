@@ -9,11 +9,11 @@ view: user_order_facts {
           usr.first_name,
           usr.last_name,
           usr.gender,
-          usr.zip
-          usr.country
-          usr.state
-          usr.city
-          usr.age
+          usr.zip,
+          usr.country,
+          usr.state,
+          usr.city,
+          usr.age,
           case
               when order_count between 0 and 2 then 'New Customer'
               when order_count between 3 and 9 then 'Loyal Customer'
