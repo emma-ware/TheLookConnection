@@ -14,13 +14,17 @@ view: user_order_facts {
           usr.state,
           usr.city,
           usr.age,
+          orderst.created_at,
+          o.id as order_id,
           case
               when order_count between 0 and 2 then 'New Customer'
               when order_count between 3 and 9 then 'Loyal Customer'
               when order_count >= 10 then 'Extremely Loyal Customer'
               end as lifetime_orders
-   from (select user_id, count(id) as order_count from demo_db.orders group by 1) as orderst
+   from (select user_id, id, created_at, count(id) as order_count from demo_db.orders group by 1) as orderst
       join demo_db.users usr on orderst.user_id = usr.id
+      join demo_db.orders o on usr.id = o.user_id
+
       ;;
  }
 #from (demo_db) straight from the connection - raw sql
@@ -37,6 +41,11 @@ dimension: user_type {
   sql: ${TABLE}.lifetime_orders ;;
 }
 
+  dimension: order_id {
+    type: number
+    sql: ${TABLE}.order_id ;;
+  }
+
 dimension: user_id {
   type: number
   sql: ${TABLE}.user_id ;;
@@ -46,6 +55,17 @@ dimension: user_order_count {
   type: number
   sql: ${TABLE}.order_count ;;
 }
+
+
+  dimension: order_created {
+    type: date
+    sql: ${TABLE}.created_at ;;
+  }
+
+  measure: first_order {
+    type: date
+    sql: min(${order_created}) ;;
+  }
 
   dimension: age {
     type: number

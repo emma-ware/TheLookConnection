@@ -16,6 +16,7 @@ view: product_details_pdt {
               ii.cost,
               oi.order_id,
               oi.returned_at,
+              ord.created_at as order_created,
               case
                   when order_count between 0 and 2 then 'Unpopular'
                   when order_count between 3 and 14 then 'Common'
@@ -29,12 +30,23 @@ view: product_details_pdt {
               join products p on orderst.product_id = p.id
               join inventory_items ii on p.id = ii.product_id
               join order_items oi on oi.inventory_item_id = ii.id
+              join orders ord on oi.order_id = ord.id
           ;;
   }
 
   dimension: created_at {
     type: date
     sql: ${TABLE}.created_at ;;
+  }
+
+  dimension: order_created {
+    type: date
+    sql: ${TABLE}.order_created ;;
+  }
+
+  dimension: first_order {
+    type: date
+    sql: min(${order_created}) ;;
   }
 
   dimension: returned_at {
