@@ -127,4 +127,13 @@ view: product_details_pdt {
     type: count
   }
 
+
+  #commit changes
+
+  measure: total_profit {
+    type: sum
+    sql: ${profit} ;;
+    value_format_name: usd
+  }
+
   }
