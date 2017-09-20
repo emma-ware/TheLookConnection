@@ -62,9 +62,15 @@ view: inventory_items {
     sql: ${TABLE}.sold_at IS NOT NULL ;;
   }
 
+#   measure: transaction_count {
+#     type: sum
+#     sql: CASE WHEN ${TABLE}.sold_at > ${TABLE}.created_at THEN 1
+#     else null end;;
+#   }
+
   measure: count {
     type: count
-    drill_fields: [id, products.item_name, products.id, order_items.count]
+    drill_fields: [order_items.count, orders.product_id]
   }
 
   measure: average_days_in_inventory {
