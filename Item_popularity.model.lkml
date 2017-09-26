@@ -7,3 +7,5 @@ include: "*.view"
 include: "*.dashboard"
 
 explore: product_details_pdt {}
+
+#explore: city_and_state {}
