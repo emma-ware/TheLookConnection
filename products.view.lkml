@@ -5,6 +5,7 @@ view: products {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
+    drill_fields: [brand, retail_price]
   }
 
   dimension: brand {
