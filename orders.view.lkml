@@ -32,6 +32,18 @@ view: orders {
     sql: ${TABLE}.created_at ;;
   }
 
+
+  dimension: time_period {
+    type: string
+    sql: CASE WHEN ${created_date} >= (TIMESTAMP '2017-05-15') AND ${created_date} < (TIMESTAMP '2017-06-18')) THEN 'bin1 name'
+              WHEN ${created_date} >= (TIMESTAMP '2017-06-19') AND ${created_date} < (TIMESTAMP '2017-07-23') THEN 'Bin2 name'
+              End
+    ;;
+  }
+
+
+
+
   dimension: status {
     type: string
     sql: ${TABLE}.status ;;
