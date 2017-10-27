@@ -172,6 +172,16 @@ measure: west_percent_of_pop {
   }
 
 
+  measure: big_id {
+    type: count_distinct
+    sql: case when ${id} > 12000 then 1
+      else 0 end;;
+
+#     filters: {
+#       field: users.id
+#       value: "> 12000"
+#     }
+  }
 
 
 
