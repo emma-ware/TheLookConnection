@@ -130,9 +130,33 @@ view: product_details_pdt {
 
   #commit changes
 
+  measure: sum_of_differences {
+    type: sum
+    sql: ${retail_price}-${cost} ;;
+    value_format_name: usd
+  }
+
+  measure: difference_of_sums {
+    type: number
+    sql: ${total_retail_price} - ${total_cost} ;;
+    value_format_name: usd
+  }
+
+  measure: total_retail_price {
+    type: sum
+    sql: ${retail_price} ;;
+    value_format_name: usd
+  }
+
   measure: total_profit {
     type: sum
     sql: ${profit} ;;
+    value_format_name: usd
+  }
+
+  measure: total_cost {
+    type: sum
+    sql: ${cost} ;;
     value_format_name: usd
   }
 
