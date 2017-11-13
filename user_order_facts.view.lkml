@@ -155,8 +155,52 @@ measure: count {
     sql: ${loyal_users_count}/${total_users} ;;
   }
 
+measure: html_test {
+  type: number
+  sql: ${age} ;;
+  html:
+{% if value > 50 %}
 
 
+<div class="image">
+
+      <img src="https://upload.wikimedia.org/wikipedia/en/1/1f/Green_Arrow_Up%28new%29.png" height=60 width=60 alt="" />
+
+    {{rendered_value}}
+
+</div>
+
+
+  {% elsif value < 50 %}
+  <p><img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Red_Arrow_Down.svg" height=60 width=60>{{rendered_value}}</p>
+  {% else %}
+  <p>{{rendered_value}}</p>
+  {% endif %}
+
+  </body>;;
+}
+
+
+#
+#   measure: html_test {
+#     type: number
+#     sql: ${age} ;;
+#     html:
+#     {% if value > 50 %}
+#        <p><img src="https://upload.wikimedia.org/wikipedia/en/1/1f/Green_Arrow_Up%28new%29.png" height=60 width=60>{{rendered_value}}</p>
+#
+#       {% elsif value < 50 %}
+#       <p><img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Red_Arrow_Down.svg" height=60 width=60>{{rendered_value}}</p>
+#       {% else %}
+#       <p>{{rendered_value}}</p>
+#       {% endif %}
+#
+#       </body>;;
+#   }
+
+
+
+#   <p><img src="https://upload.wikimedia.org/wikipedia/en/1/1f/Green_Arrow_Up%28new%29.png" height=60 width=60>{{rendered_value}}</p>
 
 #   derived_table: {
 #     sql:
