@@ -32,6 +32,13 @@ view: orders {
     sql: ${TABLE}.created_at ;;
   }
 
+ measure: first_day_of_week {
+   type: number
+  sql: CASE WHEN ${created_date} = ${created_week} then ${count}
+  else null end;;
+  }
+
+
 
   dimension: time_period {
     type: string
@@ -53,6 +60,11 @@ view: orders {
     type: number
     # hidden: yes
     sql: ${TABLE}.user_id ;;
+  }
+
+  dimension: days_since_order {
+    type: number
+    sql: datediff('Day',convert_timezone('UTC','PST',getdate()),${created_date}) ;;
   }
 
   measure: count {

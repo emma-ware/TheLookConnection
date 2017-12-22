@@ -8,8 +8,10 @@ include: "*.dashboard"
 
 datagroup: orders_datagroup {
   sql_trigger: SELECT count(*) FROM order_items ;;
-  max_cache_age: "4 hours"
+  max_cache_age: "0 minutes"
 }
+
+
 
 
 #########
@@ -23,6 +25,8 @@ explore: inventory_items {
     relationship: many_to_one
   }
 }
+
+explore: templated_filter_dt {}
 
 
 #########
