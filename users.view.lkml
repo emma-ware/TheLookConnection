@@ -23,6 +23,11 @@ view: users {
     sql: ${TABLE}.country ;;
   }
 
+  dimension: google {
+    type: string
+    sql: 'Google' ;;
+  }
+
   dimension_group: created {
     type: time
     timeframes: [
