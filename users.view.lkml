@@ -12,9 +12,32 @@ view: users {
     sql: ${TABLE}.age ;;
   }
 
+  dimension: yesno_test {
+    type: yesno
+    sql: ${age} > ${orders.id} ;;
+  }
+
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
+    html:
+    <p style="width:200px">{{ rendered_value }}</p> ;;
+  }
+
+  dimension: case_test {
+    type: string
+    case: {
+      when: {
+        sql: ${state} = 'New York' ;;
+        label: "Foo"
+      }
+      when: {
+        sql: ${state} = 'California'  ;;
+        label: "Bar"
+      }
+
+      else: "Foo"
+    }
   }
 
   dimension: country {
@@ -37,6 +60,7 @@ view: users {
       week,
       month,
       quarter,
+      time_of_day,
       year
     ]
     sql: ${TABLE}.created_at ;;
@@ -79,10 +103,29 @@ dimension:  full_name{
     style: integer
     sql: ${age} ;;
   }
+#
+#   dimension_group: in_query_test {
+#     type: time
+#     timeframes: [raw, time, date, month]
+#     sql: {% if orders.status._in_query %} COALESCE(${TABLE}.created_at_raw, ${orders.created_at_raw})
+#     {% else %} ${TABLE}.created_at_raw
+#     {% endif %}
+#     ;;
+#   }
 
 
   dimension: zip {
     type: zipcode
+    group_label: "TEST GROUP"
+    label: "{% if _user_attributes['is_me'] == 'No' %} Employee Name {% else %} Customer Name {% endif %}"
+    map_layer_name: us_zipcode_tabulation_areas
+    sql: ${TABLE}.zip ;;
+  }
+
+  dimension: zippy {
+    type: zipcode
+    group_label: "TEST GROUP"
+    label: "{% if _user_attributes['is_me'] == 'No' %} Name {% else %} LNAME Name {% endif %}"
     map_layer_name: us_zipcode_tabulation_areas
     sql: ${TABLE}.zip ;;
   }
@@ -97,6 +140,16 @@ dimension:  full_name{
     drill_fields: [detail*]
   }
 
+  measure: max_date {
+    type: time
+    sql:DATE_ADD(max(${created_time_of_day}), INTERVAL 2 HOUR) ;;
+  }
+
+ dimension: max_date_dim {
+   type: date
+  sql: max(${created_date}) ;;
+ }
+
   measure: new_england_population {
     type: count_distinct
     sql: ${TABLE}.id  ;;
@@ -106,7 +159,7 @@ dimension:  full_name{
     }
   }
 
-  measure:west_population {
+  measure: west_population {
     type: count_distinct
     sql: ${TABLE}.id  ;;
     filters: {
@@ -114,6 +167,8 @@ dimension:  full_name{
       value:  "West"
     }
   }
+
+
 
   measure: total_population {
     type: count_distinct
@@ -150,8 +205,37 @@ measure: west_percent_of_pop {
         ;;
   }
 
+#   measure: count_age {
+#     type: count
+#     sql: ${TABLE}.id ;;
+#
+#     filters: {
+#       field: age
+#       value: ">50"
+#     }
+#   }
 
 
+#   filter: parameter_filter {
+#     type: string
+#     suggest_explore: users
+#     suggest_dimension: region
+#
+#
+#   }
+#
+#   filter: state_filter {
+#     type: string
+#     suggest_explore: users
+#     suggest_dimension: state
+#     sql: {% condition %} ${state_filter} {% endcondition %}  ;;
+#   }
+#
+#   dimension: test {
+#     type: string
+#     sql: ${TABLE}.state ;;
+#
+#   }
 
 
 
@@ -173,7 +257,13 @@ measure: west_percent_of_pop {
 
   measure: state_count {
     type: count_distinct
-    sql: ${TABLE}.state ;;
+    sql: ${TABLE}.state  ;;
+    drill_fields: [state]
+  }
+
+  measure: state_count_avg {
+    type: number
+    sql: ${state_count}/10 ;;
     drill_fields: [state]
   }
 

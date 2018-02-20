@@ -18,6 +18,11 @@ view: orders {
     sql: ${TABLE}.id ;;
   }
 
+  dimension: orders_yesno {
+    type: yesno
+    sql: ${id} > 100 ;;
+  }
+
   dimension_group: created {
     type: time
     timeframes: [

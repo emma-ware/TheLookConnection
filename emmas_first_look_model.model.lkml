@@ -4,7 +4,7 @@ connection: "thelook"
 include: "*.view"
 
 # include all the dashboards
-include: "*.dashboard"
+#include: "*.dashboard"
 
 datagroup: orders_datagroup {
   sql_trigger: SELECT count(*) FROM order_items ;;
@@ -24,6 +24,16 @@ explore: inventory_items {
     sql_on: ${inventory_items.product_id} = ${products.id} ;;
     relationship: many_to_one
   }
+
+  join: order_items {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: {% if products.id._in_query %}
+    ${order_items.inventory_item_id} = ${inventory_items.id}
+    {% endif %}
+    ;;
+  }
+
 }
 
 explore: templated_filter_dt {}
@@ -142,7 +152,7 @@ explore:pdt_tests {}
 
 explore: not_in_pdt {}
 
-
+explore: aggregate_dt {}
 
 
 

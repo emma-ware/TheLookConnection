@@ -3,8 +3,41 @@ view: templated_filter_dt {
     sql: select category, id, department, item_name, brand
           from demo_db.products
           where
-          ( {% condition related_category_name_filter %} department {% endcondition %})
+          ( {% condition related_category_name_filter %} category {% endcondition %})
 ;;
+}
+
+  filter: related_category_name_filter {
+    type: string
+    suggest_dimension: category
+  }
+
+  dimension: granularity_column {
+    type: string
+    sql: ${TABLE}.{% parameter granularity %} ;;
+  }
+
+#   dimension_group:  date {
+#     timeframes: [date,month,year]
+#     sql: ${date_{% parameter %}} ;;
+#   }
+
+parameter: granularity {
+  type: unquoted
+  allowed_value: {
+    value: "department"
+    label: "Department"
+  }
+  allowed_value: {
+    value: "category"
+    label: "Category"
+  }
+  allowed_value: {
+    value: "brand"
+    label: "Brand"
+
+  }
+
 }
 
   dimension: id {
@@ -39,9 +72,8 @@ view: templated_filter_dt {
     sql: ${TABLE}.rank ;;
   }
 
-  filter: related_category_name_filter {
-    type: string
-    suggest_dimension: category
+  measure: count {
+    type: count
   }
 
 

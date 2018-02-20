@@ -44,10 +44,10 @@ view: product_details_pdt {
     sql: ${TABLE}.order_created ;;
   }
 
-  dimension: first_order {
-    type: date
-    sql: min(${order_created}) ;;
-  }
+#   dimension: first_order {
+#     type: date
+#     sql: min(${order_created}) ;;
+#   }
 
   dimension: returned_at {
     type: date
