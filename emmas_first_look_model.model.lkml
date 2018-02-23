@@ -12,7 +12,7 @@ datagroup: orders_datagroup {
 }
 
 
-
+explore: users_max_date {}
 
 #########
 #EXPLORE INVENTORY ITEMS
@@ -76,6 +76,7 @@ explore: order_items {
 
 
 explore: orders {
+  sql_always_where: ${created_date} = (SELECT max((DATE(orders.created_at ))) FROM demo_db.orders) ;;
   join: users {
     type: left_outer
     sql_on: ${orders.user_id} = ${users.id} ;;

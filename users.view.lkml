@@ -1,5 +1,12 @@
 view: users {
-  sql_table_name: demo_db.users ;;
+  #sql_table_name: demo_db.users ;;
+  derived_table: {
+    sql:
+    SELECT *, MAX(orders.created_at) as max_date_order FROM demo_db.users as users
+    LEFT JOIN demo_db.orders  AS orders ON users.id=orders.user_id
+
+    ;;
+  }
 
   dimension: id {
     primary_key: yes
@@ -16,6 +23,21 @@ view: users {
     type: yesno
     sql: ${age} > ${orders.id} ;;
   }
+
+dimension: max_date_order {
+  type: date
+  sql: ${TABLE}.max_date_order ;;
+}
+
+filter: suggestion_filter_example {
+  type: string
+  suggestions: ["Suggestion A", "Suggestion B"]
+}
+
+measure: user_maximum_order {
+  type: date
+  sql: MAX(${orders.created_raw}) ;;
+}
 
   dimension: city {
     type: string
