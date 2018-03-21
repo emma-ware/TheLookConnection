@@ -1,12 +1,12 @@
 view: users {
-  #sql_table_name: demo_db.users ;;
-  derived_table: {
-    sql:
-    SELECT *, MAX(orders.created_at) as max_date_order FROM demo_db.users as users
-    LEFT JOIN demo_db.orders  AS orders ON users.id=orders.user_id
-
-    ;;
-  }
+  sql_table_name: demo_db.users ;;
+#   derived_table: {
+#     sql:
+#     SELECT *, MAX(orders.created_at) as max_date_order FROM demo_db.users as users
+#     LEFT JOIN demo_db.orders  AS orders ON users.id=orders.user_id
+#
+#     ;;
+#   }
 
   dimension: id {
     primary_key: yes
@@ -16,7 +16,18 @@ view: users {
 
   dimension: age {
     type: number
-    sql: ${TABLE}.age ;;
+    sql: ${TABLE}.age;;
+  }
+
+
+
+  measure: age_count {
+    type: count
+    filters: {
+      field: orders.id
+      value: ">5000"
+    }
+    drill_fields: [orders.id]
   }
 
   dimension: yesno_test {
@@ -24,10 +35,10 @@ view: users {
     sql: ${age} > ${orders.id} ;;
   }
 
-dimension: max_date_order {
-  type: date
-  sql: ${TABLE}.max_date_order ;;
-}
+# dimension: max_date_order {
+#   type: date
+#   sql: ${TABLE}.max_date_order ;;
+# }
 
 filter: suggestion_filter_example {
   type: string
@@ -45,6 +56,23 @@ measure: user_maximum_order {
     html:
     <p style="width:200px">{{ rendered_value }}</p> ;;
   }
+
+#
+#   filter: date_start {
+#     type: date
+#   }
+#
+#   filter: date_end {
+#     type: date
+#   }
+#
+#
+#   measure: date_sum {
+#     type: sum
+#     sql: CASE WHEN {% condition date_start %} ${created_date} {% endcondition %}
+#         THEN 1 else 0 END
+#         ;;
+#   }
 
   dimension: case_test {
     type: string
@@ -111,12 +139,19 @@ measure: user_maximum_order {
 dimension:  full_name{
   description: "first and last name"
   sql: concat(${TABLE}.first_name, ' ', ${TABLE}.last_name) ;;
+  drill_fields: [id, age, age_tier]
 }
 
   dimension: state {
     type: string
     map_layer_name: us_states
-    sql: ${TABLE}.state ;;
+   #sql: ${TABLE}.state ;;
+    sql:
+      {% if state._is_filtered %}
+      ${TABLE}.state
+      {% else %}
+        NULL
+      {% endif %} ;;
   }
 
   dimension: age_tier {
@@ -157,20 +192,30 @@ dimension:  full_name{
 #    sql: ${order_items.sale_price} - ${inventory_items.cost}. ;;
 #  }
 
-  measure: count {
-    type: count
+  measure: count_test {
+    type: number
+   # html: {% if state._value == 'California' %}<b><span style="color: black;">{{ rendered_value }}</span></b>{% else %} {{rendered_value}} {% endif %} ;;
     drill_fields: [detail*]
+    sql: {% if state._is_filtered %}
+      count(id)
+      {% else %}
+        NULL
+      {% endif %} ;;
   }
 
-  measure: max_date {
-    type: time
-    sql:DATE_ADD(max(${created_time_of_day}), INTERVAL 2 HOUR) ;;
-  }
+measure: count {
+  type: count
+}
 
- dimension: max_date_dim {
-   type: date
-  sql: max(${created_date}) ;;
- }
+#   measure: max_date {
+#     type: time
+#     sql:DATE_ADD(max(${created_time_of_day}), INTERVAL 2 HOUR) ;;
+#   }
+
+#  dimension: max_date_dim {
+#    type: date
+#   sql: max(${created_date}) ;;
+#  }
 
   measure: new_england_population {
     type: count_distinct

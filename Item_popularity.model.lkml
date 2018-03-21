@@ -8,7 +8,7 @@ include: "*.view"
 
 explore: product_details_pdt {}
 
-explore: users_join_test {
+explore: users_join_test{
   from: users
   join: orders{
     type: left_outer

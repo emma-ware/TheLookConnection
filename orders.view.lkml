@@ -23,6 +23,10 @@ view: orders {
     sql: ${id} > 100 ;;
   }
 
+  parameter: orders_param {
+    type: string
+  }
+
   dimension_group: created {
     type: time
     timeframes: [
@@ -32,10 +36,28 @@ view: orders {
       week,
       month,
       quarter,
-      year
+      year,
+      week_of_year
     ]
     sql: ${TABLE}.created_at ;;
+ # sql: DATE(CONVERT_TZ(${TABLE}.created_at ,'UTC','America/Los_Angeles')) ;;
   }
+
+filter: date_start {
+  type: date
+}
+
+filter: date_end {
+  type: date
+}
+
+
+measure: date_sum {
+  type: sum
+  sql: CASE WHEN {% condition date_start %} ${created_date} {% endcondition %}
+  THEN 1 else 0 END
+  ;;
+}
 
  measure: first_day_of_week {
    type: number
@@ -70,6 +92,12 @@ view: orders {
   dimension: days_since_order {
     type: number
     sql: datediff('Day',convert_timezone('UTC','PST',getdate()),${created_date}) ;;
+  }
+
+  measure: average_test {
+    type: average
+    sql: ${TABLE}.id ;;
+    value_format_name: decimal_1
   }
 
   measure: count {

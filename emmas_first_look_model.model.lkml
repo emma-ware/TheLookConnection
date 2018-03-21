@@ -12,13 +12,20 @@ datagroup: orders_datagroup {
 }
 
 
+datagroup: orders_datagroup_2 {
+  sql_trigger: SELECT count(*) FROM order_items ;;
+  max_cache_age: "24 hours"
+}
+
 explore: users_max_date {}
 
 #########
 #EXPLORE INVENTORY ITEMS
 #########
 
-explore: inventory_items {
+explore: inventory_items_blah {
+  label: "Inventory Items"
+  view_name: inventory_items
   join: products {
     type: left_outer
     sql_on: ${inventory_items.product_id} = ${products.id} ;;
@@ -65,7 +72,7 @@ explore: order_items {
 
   join: users {
     type: left_outer
-    sql_on: ${orders.user_id} = ${users.id} ;;
+    sql_on: ${orders.user_id} = ${users.id} and ${users.age} > 50 ;;
     relationship: many_to_one
   }
 }
@@ -76,7 +83,7 @@ explore: order_items {
 
 
 explore: orders {
-  sql_always_where: ${created_date} = (SELECT max((DATE(orders.created_at ))) FROM demo_db.orders) ;;
+#   sql_always_where: ${created_date} = (SELECT max((DATE(orders.created_at ))) FROM demo_db.orders) ;;
   join: users {
     type: left_outer
     sql_on: ${orders.user_id} = ${users.id} ;;

@@ -83,6 +83,10 @@ view: product_details_pdt {
   dimension: brand {
     type: string
     sql: ${TABLE}.brand ;;
+    html:
+     <div style="width:100px">{{ rendered_value }}</div>
+
+    ;;
   }
 
   dimension: retail_price {
@@ -125,6 +129,7 @@ view: product_details_pdt {
 
   measure: count{
     type: count
+    html: <div style="width:200px">{{ rendered_value }}</div> ;;
   }
 
 

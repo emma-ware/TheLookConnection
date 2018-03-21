@@ -35,10 +35,11 @@ measure: running_total{
 }
 
   dimension: category {
+    label: "cATEGORY'S category"
     type: string
     sql: ${TABLE}.category ;;
- #   html:
-  #  <p style="font-size:30px"> {{value}} </p> ;;
+    html:
+    <p style="font-size:100px; font-family:monotype"> {{value}} </p> ;;
   }
 
   dimension: department {
@@ -49,6 +50,11 @@ measure: running_total{
   dimension: item_name {
     type: string
     sql: ${TABLE}.item_name ;;
+    html: {{rendered_value}} ;;
+    link: {
+      label: "the link"
+      url: "http://www.google.com/search?q={{ category._value }}"
+    }
   }
 
   dimension: rank {
