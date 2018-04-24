@@ -32,6 +32,7 @@ explore: inventory_items_blah {
     relationship: many_to_one
   }
 
+
   join: order_items {
     type: left_outer
     relationship: one_to_many
@@ -42,6 +43,7 @@ explore: inventory_items_blah {
   }
 
 }
+explore: inventory_items {}
 
 explore: templated_filter_dt {}
 

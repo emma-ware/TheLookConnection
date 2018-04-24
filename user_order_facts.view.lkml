@@ -35,6 +35,21 @@ dimension: user_full_name {
   sql: concat(${TABLE}.first_name, ' ', ${TABLE}.last_name);;
 }
 
+measure: count_measure_number {
+  type: number
+  sql: ${TABLE}.order_count ;;
+}
+
+#   measure: count_measure_count {
+#     type: count
+#     sql: ${TABLE}.order_count ;;
+#   }
+
+  measure: count_measure_sum {
+    type: sum
+    sql: ${TABLE}.order_count ;;
+  }
+
 dimension: user_type {
   type: string
   description: "0-2 orders is a New Customer, 3-9 is a Loyal Customer, 10+ orders is an Extremely Loyal Customer"
@@ -49,6 +64,24 @@ dimension: user_type {
 dimension: user_id {
   type: number
   sql: ${TABLE}.user_id ;;
+}
+
+dimension: positive_negative {
+  type: number
+  sql: CASE WHEN  ${TABLE}.user_id < 500 THEN ${TABLE}.user_id
+  ELSE (${TABLE}.user_id * -1) END
+  ;;
+}
+
+measure: negative_numbers {
+  type: sum
+  sql: ${positive_negative} ;;
+}
+
+dimension: full_size_image {
+  type: number
+  sql: ${user_id} ;;
+  html: <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/LARGE_elevation.jpg/800px-LARGE_elevation.jpg" /> ;;
 }
 
 dimension: user_order_count {
@@ -154,6 +187,8 @@ measure: count {
     value_format_name: percent_2
     sql: ${loyal_users_count}/${total_users} ;;
   }
+
+
 
 measure: html_test {
   type: number

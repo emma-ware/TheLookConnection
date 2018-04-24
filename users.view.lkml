@@ -116,6 +116,13 @@ measure: user_maximum_order {
     sql: ${TABLE}.created_at ;;
   }
 
+  dimension: ordered_date {
+    type: date
+    order_by_field: id
+    sql: ${created_date} ;;
+
+  }
+
   dimension: email {
     type: string
     sql: ${TABLE}.email ;;
@@ -226,6 +233,25 @@ measure: count {
     }
   }
 
+  dimension: id_html {
+    type: number
+    sql: ${TABLE}.id ;;
+    html:
+            <div>
+        <p style="font-size: 14px;font-weight:600;"><a href= {{value}} target="new" >{{linked_value}}</a></p>
+        </div>
+
+    ;;
+  }
+
+measure: unique_user_drill {
+  type: count_distinct
+  sql: ${id_html} ;;
+  drill_fields: [id_html]
+  html: <a href="#drillmenu" target="_self"> {{rendered_value}} ;;
+}
+
+
   measure: west_population {
     type: count_distinct
     sql: ${TABLE}.id  ;;
@@ -240,6 +266,11 @@ measure: count {
   measure: total_population {
     type: count_distinct
     sql: ${TABLE}.id ;;
+  }
+
+  measure: count_diff {
+    type: number
+    sql: ${count} - ${age_count} ;;
   }
 
 measure: west_percent_of_pop {
@@ -325,13 +356,13 @@ measure: west_percent_of_pop {
   measure: state_count {
     type: count_distinct
     sql: ${TABLE}.state  ;;
-    drill_fields: [state]
+    drill_fields: []
+  link: {label: "Explore 5000 Results" url: "{{ link }}&limit=5000" }
   }
 
   measure: state_count_avg {
     type: number
     sql: ${state_count}/10 ;;
-    drill_fields: [state]
   }
 
 

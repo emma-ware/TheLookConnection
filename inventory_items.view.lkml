@@ -12,6 +12,11 @@ view: inventory_items {
     sql: ${TABLE}.cost ;;
   }
 
+  measure: median_cost {
+    type: median
+    sql: ${cost} ;;
+  }
+
   dimension_group: created {
     type: time
     timeframes: [

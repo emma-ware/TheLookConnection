@@ -23,9 +23,29 @@ view: orders {
     sql: ${id} > 100 ;;
   }
 
+
+dimension: double_if_html {
+  type: string
+  sql: ${status} ;;
+  html:
+  {% if orders.user_id._value > 100 %}
+  <a href="https://www.google.com/">
+  {% endif %}
+  {% if value == 'complete' %}
+      <font color="#ff0000"> {{rendered_value}} </font>
+    {% endif %} </a> ;;
+
+}
+
   parameter: orders_param {
-    type: string
+    type: number
   }
+
+dimension: param_test {
+  type: string
+  sql: {% parameter orders_param  %} ;;
+}
+
 
   dimension_group: created {
     type: time
@@ -37,7 +57,10 @@ view: orders {
       month,
       quarter,
       year,
-      week_of_year
+      week_of_year,
+      hour_of_day,
+      day_of_week,
+      day_of_week_index
     ]
     sql: ${TABLE}.created_at ;;
  # sql: DATE(CONVERT_TZ(${TABLE}.created_at ,'UTC','America/Los_Angeles')) ;;
@@ -51,6 +74,15 @@ filter: date_end {
   type: date
 }
 
+dimension: hour_of_day_and_day_of_week {
+  order_by_field: created_day_of_week_index
+  sql: concat(${created_day_of_week}, ' - ', ${created_hour_of_day}) ;;
+}
+
+dimension: repeating_weeks {
+  sql: ${created_date} ;;
+  html: {{ hour_of_day_and_day_of_week._rendered_value }} ;;
+  }
 
 measure: date_sum {
   type: sum
@@ -102,6 +134,7 @@ measure: date_sum {
 
   measure: count {
     type: count
+    link: {label: "Explore 5000 Results" url: "{{ link }}&limit=5000" }
     drill_fields: [id, users.last_name, users.first_name, users.id, order_items.count]
   }
 }
