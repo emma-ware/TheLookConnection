@@ -50,6 +50,9 @@ measure: count_measure_number {
     sql: ${TABLE}.order_count ;;
   }
 
+
+
+
 dimension: user_type {
   type: string
   description: "0-2 orders is a New Customer, 3-9 is a Loyal Customer, 10+ orders is an Extremely Loyal Customer"
