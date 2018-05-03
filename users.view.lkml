@@ -19,6 +19,15 @@ view: users {
     sql: ${TABLE}.age;;
   }
 
+  filter: names_in {
+    type: string
+    suggest_dimension: first_name
+  }
+
+# dimension: name_filters {
+#   type: string
+#   sql: CASE WHEN {% condition filtername %} field_we're_applying_to {% endcondition %} ${name_field} else 'others' ;;
+# }
 
 
   measure: age_count {
@@ -90,6 +99,14 @@ measure: user_maximum_order {
     }
   }
 
+  measure: count_or {
+    type: count
+    filters: {
+      field: state
+      value: "CA, NY"
+    }
+  }
+
   dimension: country {
     type: string
     map_layer_name: countries
@@ -115,6 +132,11 @@ measure: user_maximum_order {
     ]
     sql: ${TABLE}.created_at ;;
   }
+
+dimension: quarter_dim {
+  type: string
+  sql: CAST(${created_quarter} as CHAR) ;;
+}
 
   dimension: ordered_date {
     type: date
@@ -253,6 +275,7 @@ measure: unique_user_drill {
 
 
   measure: west_population {
+    label: "percent #"
     type: count_distinct
     sql: ${TABLE}.id  ;;
     filters: {
@@ -281,6 +304,7 @@ measure: west_percent_of_pop {
 }
 
   dimension: region {
+    hidden: yes
     type: string
     sql:
       CASE WHEN ${state} IN ('California', 'Washington', 'Oregon', 'Hawaii', 'Alaska') THEN 'West'
