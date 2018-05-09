@@ -1,5 +1,5 @@
 - dashboard: testy_mc_test_face
-  title: testy mc test face
+  title: testy mc testy mc test face
   layout: newspaper
   elements:
   - title: My title

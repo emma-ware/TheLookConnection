@@ -17,6 +17,7 @@ view: users {
   dimension: age {
     type: number
     sql: ${TABLE}.age;;
+    html: <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p> ;;
   }
 
   filter: names_in {
@@ -44,6 +45,11 @@ view: users {
     sql: ${age} > ${orders.id} ;;
   }
 
+measure: sum_in_sql {
+  type: number
+  sql: sum(${age_count}) ;;
+}
+
 # dimension: max_date_order {
 #   type: date
 #   sql: ${TABLE}.max_date_order ;;
@@ -62,8 +68,7 @@ measure: user_maximum_order {
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
-    html:
-    <p style="width:200px">{{ rendered_value }}</p> ;;
+    html: <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p> ;;
   }
 
 #
