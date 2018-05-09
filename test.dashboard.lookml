@@ -1,4 +1,4 @@
-- dashboard: testy_mc_test_face
+- dashboard: testy_mc_testy_mc_face
   title: testy mc testy mc test face
   layout: newspaper
   elements:
