@@ -23,6 +23,19 @@ view: orders {
     sql: ${id} > 100 ;;
   }
 
+  dimension: explore_drill {
+    type: string
+    sql: ${status} ;;
+    link: {
+      label: "YEE"
+      url: "/explore/emmas_first_look_model/orders?fields=orders.id,orders.created_date&f[orders.status]={{rendered_value}}&limit=500&query_timezone=America%2FLos_Angeles&vis=%7B%22type%22%3A%22table%22%2C%22show_view_names%22%3Atrue%2C%22show_row_numbers%22%3Atrue%2C%22truncate_column_names%22%3Afalse%2C%22hide_totals%22%3Afalse%2C%22hide_row_totals%22%3Afalse%2C%22table_theme%22%3A%22editable%22%2C%22limit_displayed_rows%22%3Afalse%2C%22enable_conditional_formatting%22%3Afalse%2C%22conditional_formatting_include_totals%22%3Afalse%2C%22conditional_formatting_include_nulls%22%3Afalse%7D&filter_config=%7B%22orders.status%22%3A%5B%7B%22type%22%3A%22%3D%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22{{rendered_value}}%22%7D%2C%7B%7D%5D%2C%22id%22%3A1%2C%22error%22%3Afalse%7D%5D%7D&origin=share-expanded"
+    }
+#     link: {
+#       url: ""
+#     }
+#     html: <a href="https://localhost:9999/explore/emmas_first_look_model/orders?fields=orders.id,orders.created_date&f[orders.status]={{rendered_value}}&limit=500&query_timezone=America%2FLos_Angeles&vis=%7B%7D&filter_config=%7B%22orders.status%22%3A%5B%7B%22type%22%3A%22%3D%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22{{rendered_value}}%22%7D%2C%7B%7D%5D%2C%22id%22%3A1%2C%22error%22%3Afalse%7D%5D%7D&origin=share-expanded">{{rendered_value}}</a> ;;
+   }
+
 
 dimension: double_if_html {
   type: string

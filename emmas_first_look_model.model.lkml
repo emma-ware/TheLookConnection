@@ -13,7 +13,7 @@ datagroup: orders_datagroup {
 
 
 datagroup: orders_datagroup_2 {
-  sql_trigger: SELECT count(*) FROM order_items ;;
+#  sql_trigger: SELECT count(*) FROM order_items ;;
   max_cache_age: "24 hours"
 }
 

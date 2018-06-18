@@ -138,6 +138,11 @@ measure: user_maximum_order {
     sql: ${TABLE}.created_at ;;
   }
 
+dimension: formatted_date {
+  type: date
+  sql: DATE_FORMAT(${TABLE}.created_at, '%Y')  ;;
+}
+
 dimension: quarter_dim {
   type: string
   sql: CAST(${created_quarter} as CHAR) ;;
