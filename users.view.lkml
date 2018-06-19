@@ -184,14 +184,14 @@ dimension:  full_name{
   dimension: state {
     type: string
     map_layer_name: us_states
-   #sql: ${TABLE}.state ;;
-    sql:
-      {% if state._is_filtered %}
-      ${TABLE}.state
-      {% else %}
-        NULL
-      {% endif %} ;;
-  }
+   sql: ${TABLE}.state ;;
+#     sql:
+#       {% if state._is_filtered %}
+#       ${TABLE}.state
+#       {% else %}
+#         NULL
+#       {% endif %} ;;
+   }
 
   dimension: age_tier {
     type: tier
