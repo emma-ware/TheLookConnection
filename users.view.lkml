@@ -14,6 +14,15 @@ view: users {
     sql: ${TABLE}.id ;;
   }
 
+parameter: number_switcher {
+  type: number
+}
+
+measure: multiplier {
+  type: number
+  sql: {% parameter number_switcher %}*${count} ;;
+}
+
   dimension: age {
     type: number
     sql: ${TABLE}.age;;

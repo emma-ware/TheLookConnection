@@ -18,5 +18,3 @@ explore: users_join_test{
   sql_always_where:  ${yesno_test} = 'Yes' ;;
 
 }
-
-#explore: city_and_state {}

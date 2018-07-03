@@ -18,6 +18,15 @@ view: orders {
     sql: ${TABLE}.id ;;
   }
 
+dimension: capitalized_first_letter_and_all_caps {
+  label: "Captialized first letter and all CAPS"
+  type: number
+  sql: ${TABLE}.id ;;
+}
+
+
+
+
   dimension: orders_yesno {
     type: yesno
     sql: ${id} > 100 ;;
@@ -60,6 +69,11 @@ dimension: param_test {
 }
 
 
+dimension: created {
+  type: yesno
+  sql: 1=1 ;;
+}
+
   dimension_group: created {
     type: time
     timeframes: [
@@ -77,6 +91,12 @@ dimension: param_test {
     ]
     sql: ${TABLE}.created_at ;;
  # sql: DATE(CONVERT_TZ(${TABLE}.created_at ,'UTC','America/Los_Angeles')) ;;
+  }
+
+  dimension: raw_DATE {
+    type: date
+    sql: ${TABLE}.created_at ;;
+    html: {{created_raw._value}} ;;
   }
 
 filter: date_start {
@@ -147,7 +167,7 @@ measure: date_sum {
 
   measure: count {
     type: count
-    link: {label: "Explore 5000 Results" url: "{{ link }}&limit=5000" }
+  #  link: {label: "Explore 5000 Results" url: "{{ link }}&limit=5000" }
     drill_fields: [id, users.last_name, users.first_name, users.id, order_items.count]
   }
 }
