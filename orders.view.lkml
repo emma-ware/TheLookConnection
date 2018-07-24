@@ -24,7 +24,15 @@ dimension: capitalized_first_letter_and_all_caps {
   sql: ${TABLE}.id ;;
 }
 
+dimension: static_number {
+   type:  number
+   sql:  5.0 ;;
+}
 
+dimension: static {
+  type: number
+  sql: 6.0 ;;
+}
 
 
   dimension: orders_yesno {

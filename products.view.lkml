@@ -18,6 +18,13 @@ view: products {
     sql: ${TABLE}.brand ;;
   }
 
+dimension: filter_null_test {
+  type: string
+  sql: CASE WHEN id > 100 THEN ${brand}
+  ELSE NULL END
+  ;;
+}
+
 filter: test_filter {
   type: string
   suggest_dimension: brand

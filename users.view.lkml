@@ -1,18 +1,51 @@
 view: users {
-  sql_table_name: demo_db.users ;;
-#   derived_table: {
-#     sql:
-#     SELECT *, MAX(orders.created_at) as max_date_order FROM demo_db.users as users
-#     LEFT JOIN demo_db.orders  AS orders ON users.id=orders.user_id
-#
-#     ;;
-#   }
+#   sql_table_name: demo_db.users ;;
+# #   derived_table: {
+# #     sql:
+# #     SELECT *, MAX(orders.created_at) as max_date_order FROM demo_db.users as users
+# #     LEFT JOIN demo_db.orders  AS orders ON users.id=orders.user_id
+# #
+# #     ;;
+# #   }
+
+derived_table: {
+  sql:
+  SELECT * FROM demo_db.users
+
+
+{% if users.state_parameter._is_filtered %}
+WHERE state = {% parameter state_parameter %}
+
+{% else %}
+
+
+{% endif %}
+  ;;
+}
 
   dimension: id {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
   }
+
+  filter: state_templated_filter {
+    type: string
+    suggest_dimension: state
+  }
+
+  parameter: state_parameter {
+    type: string
+    allowed_value: {
+      value: "California"
+      label: "West Coast Best Coast"
+    }
+    allowed_value: {
+      value: "New York"
+      label: "The Big Apple"
+    }
+  }
+
 
 parameter: number_switcher {
   type: number

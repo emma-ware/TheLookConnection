@@ -40,6 +40,8 @@ explore: inventory_items_blah {
     ${order_items.inventory_item_id} = ${inventory_items.id}
     {% endif %}
     ;;
+
+
   }
 
 }
@@ -77,6 +79,7 @@ explore: order_items {
     sql_on: ${orders.user_id} = ${users.id} and ${users.age} > 50 ;;
     relationship: many_to_one
   }
+
 }
 
 #########
