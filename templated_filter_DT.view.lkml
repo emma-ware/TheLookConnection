@@ -2,10 +2,12 @@ view: templated_filter_dt {
   derived_table: {
     sql: select category, id, department, item_name, brand
           from demo_db.products
-          where
-          ( {% condition related_category_name_filter %} category {% endcondition %})
 ;;
 }
+
+#          where
+  #        ( {% condition related_category_name_filter %} category {% endcondition %})
+#
 
   filter: related_category_name_filter {
     type: string
