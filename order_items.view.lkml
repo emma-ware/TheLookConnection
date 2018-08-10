@@ -19,6 +19,23 @@ view: order_items {
     sql: ${TABLE}.order_id ;;
   }
 
+  filter: category_count_picker {
+    description: "Use with the Category Count measure"
+    type: string
+    suggest_dimension: products.category
+  }
+
+  measure: category_count {
+    description: "Use with the Category Count Picker filter-only field"
+    type: sum
+    sql:
+      CASE
+        WHEN {% condition category_count_picker %} ${products.category} {% endcondition %}
+        THEN 1
+        ELSE 0
+      END
+    ;;
+  }
 
 
   dimension_group: returned {

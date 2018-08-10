@@ -42,11 +42,11 @@ measure: running_total{
 }
 
   dimension: category {
-    label: "cATEGORY'S category"
+   # label: "cATEGORY'S category"
     type: string
     sql: ${TABLE}.category ;;
-    html:
-    <p style="font-size:100px; font-family:monotype"> {{value}} </p> ;;
+#    html:
+#    <p style="font-size:100px; font-family:monotype"> {{value}} </p> ;;
   }
 
   dimension: department {
